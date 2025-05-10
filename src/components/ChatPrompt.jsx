@@ -15,7 +15,7 @@ const ChatPrompt = () => {
     setIsLoading(true);
     setSelectedTopic(topic);
     try {
-      const res = await axios.post('http://localhost:5000/api/quiz', { topic });
+      const res = await axios.post('https://back-pln.vercel.app/api/quiz', { topic });
       if (res.data?.questions) {
         setQuestions(res.data.questions);
         setStage('quiz');
@@ -58,7 +58,7 @@ const ChatPrompt = () => {
     setStage('result');
 
     try {
-      await axios.post('http://localhost:5000/api/quiz/results', resultData);
+      await axios.post('https://back-pln.vercel.app/api/quiz/results', resultData);
     } catch (err) {
       console.error('Error al guardar resultado:', err);
     }
