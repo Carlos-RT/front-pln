@@ -15,7 +15,7 @@ const ChatAntonio = () => {
     setPrompt('');
 
     try {
-      const res = await axios.post('http://localhost:5000/api/chat', { prompt });
+      const res = await axios.post('https://back-pln.vercel.app/api/chat', { prompt });
       const assistantMessage = { role: 'assistant', content: res.data.response };
       setMessages(prev => [...prev, assistantMessage]);
     } catch (err) {
