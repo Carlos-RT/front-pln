@@ -1,5 +1,6 @@
-import ChatPrompt from './components/ChatPrompt'
+
 import './App.css'
+import ChatAntonio from './components/ChatAntonio'
 
 function App() {
   return (
@@ -10,7 +11,7 @@ function App() {
       
       <div className="w-full max-w-2xl mx-auto flex-1 flex flex-col">
         <div className="flex-1 flex flex-col pb-4">
-          <ChatPrompt />
+          <ChatAntonio />
         </div>
         
         <p className="text-center text-purple-600 font-medium text-sm my-2">
