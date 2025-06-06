@@ -12,7 +12,7 @@ const ChatAntonio = ({ user }) => {
   useEffect(() => {
     const fetchConversations = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/chat/history', {
+        const res = await axios.get('https://back-pln.vercel.app/api/chat/history', {
           headers: { Authorization: `Bearer ${token}` },
         });
         const previousMessages = res.data.map((conv) => ([
