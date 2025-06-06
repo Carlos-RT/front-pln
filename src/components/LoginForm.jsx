@@ -13,7 +13,7 @@ const LoginForm = ({ onLogin }) => {
     e.preventDefault();
     setError('');
     try {
-      const res = await axios.post('http://localhost:5000/api/chat/login', formData);
+      const res = await axios.post('https://back-pln.vercel.app/api/chat/login', formData);
       const { token, user } = res.data;
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
