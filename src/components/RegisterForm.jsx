@@ -23,7 +23,7 @@ const RegisterForm = ({ onSwitchToLogin }) => {
     }
 
     try {
-      await axios.post('http://localhost:5000/api/chat/register', {
+      await axios.post('https://back-pln.vercel.app/api/chat/register', {
         username: formData.username,
         password: formData.password
       });
