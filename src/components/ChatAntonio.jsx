@@ -1,26 +1,58 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const ChatAntonio = () => {
+const ChatAntonio = ({ user }) => {
   const [prompt, setPrompt] = useState('');
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const token = localStorage.getItem('token');
+
+  // Cargar conversaciones previas del usuario
+  useEffect(() => {
+    const fetchConversations = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/api/chat/history', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const previousMessages = res.data.map((conv) => ([
+          { role: 'user', content: conv.prompt },
+          { role: 'assistant', content: conv.response }
+        ])).flat();
+        setMessages(previousMessages);
+      } catch (err) {
+        console.error('❌ Error al cargar historial:', err);
+      }
+    };
+
+    fetchConversations();
+  }, [token]);
 
   const handleSend = async () => {
     if (!prompt.trim()) return;
 
     const userMessage = { role: 'user', content: prompt };
-    setMessages(prev => [...prev, userMessage]);
+    setMessages((prev) => [...prev, userMessage]);
     setIsLoading(true);
     setPrompt('');
 
     try {
-      const res = await axios.post('https://back-pln.vercel.app/api/chat', { prompt });
+      const res = await axios.post(
+        'http://localhost:5000/api/chat',
+        { prompt },
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
       const assistantMessage = { role: 'assistant', content: res.data.response };
-      setMessages(prev => [...prev, assistantMessage]);
+      setMessages((prev) => [...prev, assistantMessage]);
     } catch (err) {
-      console.error('Error en el chat:', err);
-      setMessages(prev => [...prev, { role: 'assistant', content: '❌ Error al responder.' }]);
+      console.error('❌ Error al enviar mensaje:', err);
+      setMessages((prev) => [...prev, {
+        role: 'assistant',
+        content: '❌ Error al responder.'
+      }]);
     } finally {
       setIsLoading(false);
     }
